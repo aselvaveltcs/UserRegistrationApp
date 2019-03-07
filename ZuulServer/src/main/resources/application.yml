@@ -20,7 +20,7 @@ user-registration-service:
   ribbon:
     eureka:
       enabled: true
-    ServerListRefreshInterval: 2
+    ServerListRefreshInterval: 60000
     ReadTimeout: 60000
     ConnectTimeout: 60000
     
@@ -28,7 +28,7 @@ user-search-delete-service:
   ribbon:
     eureka:
       enabled: true
-    ServerListRefreshInterval: 2
+    ServerListRefreshInterval: 60000
     ReadTimeout: 60000
     ConnectTimeout: 60000
 
