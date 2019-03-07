@@ -68,7 +68,7 @@ public class UserRegistrationController  {
 		   if(isNullOrEmpty(FirstName)) return new ResponseEntity<>("User First Name cannot be blank.", HttpStatus.BAD_REQUEST); 
 		   if(isNullOrEmpty(LastName)) return new ResponseEntity<>("User Last Name cannot be blank.", HttpStatus.BAD_REQUEST); 
  
-		    boolean UserIdExists = restTemplate.getForObject("http://user-search-delete-service/SearchUser/"+UserId, boolean.class );
+		    boolean UserIdExists = restTemplate.getForObject("http://user-search-delete-service/SearchUser/"+ UserId, boolean.class );
 		  
 			  
 		   if (UserIdExists) return new ResponseEntity<>("User Id already exists.", HttpStatus.CONFLICT); 
@@ -88,7 +88,7 @@ public class UserRegistrationController  {
 		   
 		   System.out.println("Within User Registration. UserId:" + UserId); 
 		   if(isNullOrEmpty(UserId)) return new ResponseEntity<>("User Id cannot be blank.", HttpStatus.BAD_REQUEST); 
-		   int DeleteStatusCode = restTemplate.getForObject("http://user-search-delete-service/CallDeleteUser/"+UserId, int.class );
+		   int DeleteStatusCode = restTemplate.getForObject("http://user-search-delete-service/CallDeleteUser/"+ UserId, int.class );
 		   
 		   if(DeleteStatusCode == 200){
 			      return new ResponseEntity<>("User has been deleted successfully", HttpStatus.OK);

@@ -15,7 +15,7 @@ user-search-delete-service:
   ribbon:
     eureka:
       enabled: true
-    ServerListRefreshInterval: 1000
+    ServerListRefreshInterval: 100
     ReadTimeout: 60000
     ConnectTimeout: 60000
   
@@ -23,8 +23,8 @@ user-search-delete-service:
 eureka:
   instance:
     prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 40
     metadata-map:
       zone: zone1
     instance-id: ${spring.application.name}:${random.value}

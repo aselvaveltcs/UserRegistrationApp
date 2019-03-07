@@ -15,8 +15,8 @@ eureka:
       region1: zone1
   instance:
     prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 40
     metadata-map:
       zone: zone1
     instance-id: ${spring.application.name}:${random.value}
