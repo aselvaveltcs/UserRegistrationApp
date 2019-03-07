@@ -1,0 +1,112 @@
+version: '3.5'
+services:
+#Container name and hostname must be same
+    eureka-server:
+        container_name: eureka-server
+        build:
+            context: .
+            dockerfile: Dockerfile-EurekaServer
+        hostname: eureka-server
+        environment:
+            - SPRING_APPLICATION_NAME=eureka-server
+            - SPRING_PROFILES_ACTIVE=dev
+        image: eureka-server:latest
+        expose:
+            - 8761
+        ports:
+            - 8761:8761
+        networks:
+           services-network-01:
+               aliases:
+                  - eureka-server      
+            
+    user-registration-service:
+        container_name: user-registration-service
+        build:
+            context: .
+            dockerfile: Dockerfile-UserRegistration
+        hostname: user-registration-service
+        environment:
+            - SPRING_APPLICATION_NAME=user-registration-service
+            - SPRING_PROFILES_ACTIVE=dev
+        image: user-registration:latest
+        expose:
+            - 8081
+        ports:
+            - 8081:8081            
+        networks:
+           services-network-01:
+               aliases:
+                - user-registration-service
+        depends_on:
+            - eureka-server
+      
+            
+    user-search-delete-service:
+        container_name: user-search-delete-service
+        build:
+            context: .
+            dockerfile: Dockerfile-UserSearchDelete
+        hostname: user-search-delete-service
+        environment:
+            - SPRING_APPLICATION_NAME=user-search-delete-service
+            - SPRING_PROFILES_ACTIVE=dev
+        image: user-search-delete:latest
+        expose:
+            - 8082  
+        ports:
+            - 8082:8082
+        networks:
+           services-network-01:
+               aliases:
+                - user-search-delete-service
+        depends_on:
+            - eureka-server
+            
+            
+    database-service:
+        container_name: db-server
+        build:
+           context: .
+           dockerfile: Dockerfile-Mysql-db
+        hostname: db-server
+        environment:
+            - MYSQL_ROOT_PASSWORD=mandal01
+            - MYSQL_DATABASE=WEBUSERDB
+            - SPRING_PROFILES_ACTIVE=dev
+        image: mysql-db:latest
+        expose:
+            - 3306  
+        ports:
+            - 3306:3306
+        networks:
+           services-network-01:
+               aliases:
+                - db-server
+
+            
+    zuul-api-gateway-server:
+        container_name: zuul-api-gateway-server
+        build:
+            context: .
+            dockerfile: Dockerfile-ZuulAPIGateway
+        hostname: zuul-api-gateway-server
+        environment:
+            - SPRING_APPLICATION_NAME=zuul-server
+            - SPRING_PROFILES_ACTIVE=dev
+        image: zuul-api-gateway-server:latest
+        expose:
+            - 8762  
+        ports:
+            - 8762:8762
+        networks:
+           services-network-01:
+               aliases:
+                - zuul-api-gateway-server
+        depends_on:
+            - eureka-server            
+            
+networks:
+  services-network-01:
+    name: services-network-01
+    driver: bridge

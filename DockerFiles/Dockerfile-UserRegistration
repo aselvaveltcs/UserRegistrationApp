@@ -1,0 +1,6 @@
+FROM java:8-alpine
+RUN apk --no-cache add netcat-openbsd
+COPY /user-registration-service-0.0.1.jar /opt/lib/
+ENTRYPOINT ["java", "-jar", "/opt/lib/user-registration-service-0.0.1.jar"]
+EXPOSE 8081
+
