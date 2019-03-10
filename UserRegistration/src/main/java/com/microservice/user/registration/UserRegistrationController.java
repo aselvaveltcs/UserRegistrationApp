@@ -71,18 +71,7 @@ public class UserRegistrationController  {
 		   if(isNullOrEmpty(FirstName)) return new ResponseEntity<>("User First Name cannot be blank.", HttpStatus.BAD_REQUEST); 
 		   if(isNullOrEmpty(LastName)) return new ResponseEntity<>("User Last Name cannot be blank.", HttpStatus.BAD_REQUEST); 
 		   
-		   
-		/*
-		 * PeerAwareInstanceRegistry registry =
-		 * EurekaServerContextHolder.getInstance().getServerContext().getRegistry();
-		 * Applications applications = registry.getApplications();
-		 * 
-		 * applications.getRegisteredApplications().forEach((registeredApplication) -> {
-		 * registeredApplication.getInstances().forEach((instance) -> {
-		 * System.out.println(instance.getAppName() + " (" + instance.getInstanceId() +
-		 * ") : " ); }); });
-		 */
-		   
+ 
  
 		    boolean UserIdExists = restTemplate.getForObject("http://USER-SEARCH-DELETE-SERVICE/SearchUser/"+ UserId, boolean.class );
 		    //boolean   UserIdExists = false;
@@ -104,7 +93,7 @@ public class UserRegistrationController  {
 		   
 		   System.out.println("Within User Registration. UserId:" + UserId); 
 		   if(isNullOrEmpty(UserId)) return new ResponseEntity<>("User Id cannot be blank.", HttpStatus.BAD_REQUEST); 
-		   int DeleteStatusCode = restTemplate.getForObject("http://user-search-delete-service/CallDeleteUser/"+ UserId, int.class );
+		   int DeleteStatusCode = restTemplate.getForObject("http://USER-SEARCH-DELETE-SERVICE/CallDeleteUser/"+ UserId, int.class );
 		   
 		   if(DeleteStatusCode == 200){
 			      return new ResponseEntity<>("User has been deleted successfully", HttpStatus.OK);

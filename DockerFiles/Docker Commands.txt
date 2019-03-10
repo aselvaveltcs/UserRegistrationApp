@@ -1,0 +1,49 @@
+docker-machine create --driver virtualbox <machineName>
+
+docker-machine create --driver virtualbox manager1
+docker-machine create --driver virtualbox worker1
+docker-machine create --driver virtualbox worker2
+docker-machine create --driver virtualbox worker3
+
+docker-machine ls
+docker-machine ip manager1
+
+docker-machine ssh manager1
+docker swarm init --advertise-addr MANAGER_IP
+docker node ls
+docker swarm join-token worker
+docker swarm join-token manager
+docker info
+docker service create --replicas 3 -p 80:80 --name <serviceName> <imageName>
+docker service ls
+docker service ps <serviceName>
+docker service scale <serviceName>=2
+docker swarm leave : to leave the swarm
+docker-machine stop <machineName>
+docker-machine rm <machineName>
+docker service rm serviceName
+
+docker tag zuul-api-gateway-server:latest dockersuvendu/zuul-api-gateway-server:latest
+docker tag mysql-db:latest dockersuvendu/mysql-db:latest
+docker tag user-search-delete:latest dockersuvendu/user-search-delete:latest
+docker tag user-registration:latest dockersuvendu/user-registration:latest
+docker tag eureka-server:latest dockersuvendu/eureka-server:latest
+docker tag cloud-api-gateway-server:latest dockersuvendu/cloud-api-gateway-server:latest
+
+
+docker stack deploy --compose-file docker-compose.yml user-registration-app
+
+docker stack deploy -c docker-compose_1.yml user-reg-app
+docker stack ps user-reg-app
+docker stack services user-reg-app
+docker stack rm user-reg-app
+
+docker network ls
+docker service scale user-reg-app_user-registration-service=2
+docker service scale user-reg-app_user-search-delete-service=2
+docker service scale user-reg-app_zuul-api-gateway-service=2
+
+comtainer default password: tcuser
+
+docker-compose up -d --build --force-recreate
+	

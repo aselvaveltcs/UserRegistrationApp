@@ -8,7 +8,11 @@ spring:
              - Path=/api/**
            filters:
               - StripPrefix=1
-           uri: lb://user-registation-service   
+           uri: lb://user-registration-service
+       discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
             
 server:
   port: 8763
@@ -25,4 +29,20 @@ eureka:
       defaultZone: http://eureka-server:8761/eureka/
     healthcheck:
       enabled: true    
-      
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 60000
+        
+user-registration-service:
+  ribbon:
+    eureka:
+      enabled: true
+    ServerListRefreshInterval: 60000
+    ReadTimeout: 60000
+    ConnectTimeout: 60000

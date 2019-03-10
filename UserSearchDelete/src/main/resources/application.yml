@@ -8,12 +8,9 @@ spring:
   application:
     name: user-search-delete-service
  
-
-
 server:
   port: 8082
-  
-  
+   
 eureka:
   instance:
     prefer-ip-address: true
@@ -27,8 +24,6 @@ eureka:
     healthcheck:
       enabled: true    
       
-      
-
 hystrix:
   command:
     default:

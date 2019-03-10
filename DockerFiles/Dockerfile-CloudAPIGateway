@@ -1,0 +1,5 @@
+FROM java:8-alpine
+RUN apk --no-cache add netcat-openbsd
+COPY /CloudAPIGateway-0.0.1-SNAPSHOT.jar /opt/lib/
+ENTRYPOINT ["java", "-jar", "/opt/lib/CloudAPIGateway-0.0.1-SNAPSHOT.jar"] 
+EXPOSE 8763

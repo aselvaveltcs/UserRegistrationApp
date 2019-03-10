@@ -6,7 +6,7 @@ spring:
     username: root
     password: mandal01
   application:
-    name: user-registation-service
+    name: user-registration-service
 
 server:
   port: 8081
@@ -18,8 +18,7 @@ user-search-delete-service:
     ServerListRefreshInterval: 60000
     ReadTimeout: 60000
     ConnectTimeout: 60000
-  
-  
+    
 eureka:
   instance:
     prefer-ip-address: true
