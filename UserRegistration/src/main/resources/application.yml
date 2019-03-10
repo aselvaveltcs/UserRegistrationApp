@@ -23,36 +23,19 @@ user-search-delete-service:
 eureka:
   instance:
     prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 30
-    leaseExpirationDurationInSeconds: 40
-    metadata-map:
-      zone: zone1
     instance-id: ${spring.application.name}:${random.value}
   client:
     prefer-same-zone-eureka: true
     register-with-eureka: true
     fetch-registry: true
-    region: region1
     service-url:
-      zone1: http://eureka-server:8761/eureka/
-    availability-zones:
-      region1: zone1
+      defaultZone: http://eureka-server:8761/eureka/
     healthcheck:
-      enabled: true
+      enabled: true    
       
       
 hystrix:
   command:
-    user-registation-service:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
-    user-search-delete-service:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
     default:
       execution:
         isolation:

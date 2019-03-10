@@ -28,25 +28,22 @@ public class UserRegistrationMicroSrvApplication {
 @Configuration
 class RestTemplateConfig {
 	
+	
+ // Create a bean for restTemplate to call services
+
+     @Bean
+	 @LoadBalanced // Load balance between service instances running at different  ports. 
+    public RestTemplate restTemplate() { return new RestTemplate(); }
+
+	
 	/*
-	 * // Create a bean for restTemplate to call services
+	 * @Primary
 	 * 
-	 * @Bean
+	 * @Bean RestTemplate restTemplate() { return new RestTemplate(); }
 	 * 
-	 * @LoadBalanced // Load balance between service instances running at different
-	 * ports. public RestTemplate restTemplate() { return new RestTemplate(); }
+	 * @LoadBalanced
+	 * 
+	 * @Bean RestTemplate loadBalanced() { return new RestTemplate(); }
 	 */
-	
-    @Primary
-    @Bean
-    RestTemplate restTemplate() {
-        return  new RestTemplate();
-    }
-	
-	@LoadBalanced
-    @Bean
-    RestTemplate loadBalanced() {
-        return  new RestTemplate();
-    }
 	
 }

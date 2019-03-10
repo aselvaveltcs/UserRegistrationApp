@@ -23,7 +23,10 @@ import com.microservice.user.registration.exception.UserRegistrationGenericExcep
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
-
+import com.netflix.discovery.shared.Applications;
+import com.netflix.eureka.EurekaServerContextHolder;
+import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
+ 
 
 //@RibbonClient(name = "user-search-delete-service", configuration = UserSearchDeleteRibbonConfiguration.class)
 
@@ -67,18 +70,31 @@ public class UserRegistrationController  {
 		   if(isNullOrEmpty(UserId)) return new ResponseEntity<>("User Id cannot be blank.", HttpStatus.BAD_REQUEST); 
 		   if(isNullOrEmpty(FirstName)) return new ResponseEntity<>("User First Name cannot be blank.", HttpStatus.BAD_REQUEST); 
 		   if(isNullOrEmpty(LastName)) return new ResponseEntity<>("User Last Name cannot be blank.", HttpStatus.BAD_REQUEST); 
+		   
+		   
+		/*
+		 * PeerAwareInstanceRegistry registry =
+		 * EurekaServerContextHolder.getInstance().getServerContext().getRegistry();
+		 * Applications applications = registry.getApplications();
+		 * 
+		 * applications.getRegisteredApplications().forEach((registeredApplication) -> {
+		 * registeredApplication.getInstances().forEach((instance) -> {
+		 * System.out.println(instance.getAppName() + " (" + instance.getInstanceId() +
+		 * ") : " ); }); });
+		 */
+		   
  
-		    boolean UserIdExists = restTemplate.getForObject("http://user-search-delete-service/SearchUser/"+ UserId, boolean.class );
-		  
+		    boolean UserIdExists = restTemplate.getForObject("http://USER-SEARCH-DELETE-SERVICE/SearchUser/"+ UserId, boolean.class );
+		    //boolean   UserIdExists = false;
 			  
-		   if (UserIdExists) return new ResponseEntity<>("User Id already exists.", HttpStatus.CONFLICT); 
+		   if (UserIdExists)    return new ResponseEntity<>("User Id already exists.", HttpStatus.CONFLICT); 
 		   
 
-		   if(userRegDAO.createUsers(UserId, FirstName, LastName, Password) >= 1){
-			      return new ResponseEntity<>("User has been created successfully", HttpStatus.CREATED);
-	        }else{
-	        	throw new UserRegistrationGenericException();
-	        }
+		
+		  if(userRegDAO.createUsers(UserId, FirstName, LastName, Password) >= 1){
+		  return new ResponseEntity<>("User has been created successfully",
+		  HttpStatus.CREATED); }else{ throw new UserRegistrationGenericException(); }
+		 
 	   }
 	   
 		// REST API Calling Method: PUT

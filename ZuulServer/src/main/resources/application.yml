@@ -23,29 +23,12 @@ user-registration-service:
     ServerListRefreshInterval: 60000
     ReadTimeout: 60000
     ConnectTimeout: 60000
-    
-user-search-delete-service:
-  ribbon:
-    eureka:
-      enabled: true
-    ServerListRefreshInterval: 60000
-    ReadTimeout: 60000
-    ConnectTimeout: 60000
+ 
 
 
     
 hystrix:
   command:
-    user-registration-service:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
-    user-search-delete-service:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
     default:
       execution:
         isolation:
@@ -56,20 +39,13 @@ hystrix:
 eureka:
   instance:
     prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 30
-    leaseExpirationDurationInSeconds: 40
-    metadata-map:
-      zone: zone1
     instance-id: ${spring.application.name}:${random.value}
   client:
     prefer-same-zone-eureka: true
     register-with-eureka: true
     fetch-registry: true
-    region: region1
     service-url:
-      zone1: http://eureka-server:8761/eureka/
-    availability-zones:
-      region1: zone1
+      defaultZone: http://eureka-server:8761/eureka/
     healthcheck:
       enabled: true      
  
