@@ -20,6 +20,7 @@ docker service ps <serviceName>
 docker service scale <serviceName>=2
 docker swarm leave : to leave the swarm
 docker-machine stop <machineName>
+docker-machine restart <machineName>
 docker-machine rm <machineName>
 docker service rm serviceName
 
@@ -31,19 +32,26 @@ docker tag eureka-server:latest dockersuvendu/eureka-server:latest
 docker tag cloud-api-gateway-server:latest dockersuvendu/cloud-api-gateway-server:latest
 
 
-docker stack deploy --compose-file docker-compose.yml user-registration-app
+docker stack deploy --compose-file docker-compose.yml user-reg-srv
 
-docker stack deploy -c docker-compose_1.yml user-reg-app
-docker stack ps user-reg-app
-docker stack services user-reg-app
-docker stack rm user-reg-app
+docker stack deploy -c docker-compose-ec2-swarm.yml usr-reg
+docker stack ps usr-reg
+docker stack services usr-reg
+docker stack rm usr-reg
+
+docker stack deploy -c docker-compose-eureka.yml eureka
+docker stack deploy -c docker-compose-services.yml srv
 
 docker network ls
-docker service scale user-reg-app_user-registration-service=2
-docker service scale user-reg-app_user-search-delete-service=2
+docker service scale usr-reg_user-search-delete-service=2
+docker service scale usr-reg_user-registration-service=2
 docker service scale user-reg-app_zuul-api-gateway-service=2
+
+docker swarm leave
 
 comtainer default password: tcuser
 
 docker-compose up -d --build --force-recreate
+
+docker-compose -f docker-compose-dynamic.yml up -d --build --force-recreate
 	
